@@ -1,0 +1,428 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Retail Product Payment Preview",
+    "version": "1.1.0",
+    "description": "Read-only preview; no orders, persistence or payments. See api.md for semantic invariants and validation."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5080",
+      "description": "Local development"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/api/product": {
+      "get": {
+        "operationId": "getProduct",
+        "description": "Read-only; no request body accepted (400). Unknown query parameters are ignored, including priceToman and baseDate. No authentication. Server alone supplies price, base date and expiry.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Valid snapshot; date based on server request time in Tehran.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "example": {
+                  "name": "محصول نمونه",
+                  "priceToman": "1000000",
+                  "currency": "TOMAN"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected body: invalid_request",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "product_not_found",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "invalid_product, calculation_failed or internal_error",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/payment-plan": {
+      "get": {
+        "operationId": "getPaymentPlan",
+        "description": "Read-only; no request body accepted (400). Unknown query parameters are ignored, including priceToman and baseDate. No authentication. Server alone supplies price, base date and expiry.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Valid snapshot; date based on server request time in Tehran.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentPlan"
+                },
+                "example": {
+                  "product": {
+                    "name": "محصول نمونه",
+                    "priceToman": "1000000",
+                    "currency": "TOMAN"
+                  },
+                  "currency": "TOMAN",
+                  "calendar": "persian",
+                  "timeZone": "Asia/Tehran",
+                  "baseDate": "1405/07/16",
+                  "downPaymentToman": "300000",
+                  "installments": [
+                    {
+                      "number": 1,
+                      "amountToman": "175000",
+                      "dueDate": "1405/08/16"
+                    },
+                    {
+                      "number": 2,
+                      "amountToman": "175000",
+                      "dueDate": "1405/09/16"
+                    },
+                    {
+                      "number": 3,
+                      "amountToman": "175000",
+                      "dueDate": "1405/10/16"
+                    },
+                    {
+                      "number": 4,
+                      "amountToman": "175000",
+                      "dueDate": "1405/11/16"
+                    }
+                  ],
+                  "totalPaymentToman": "1000000",
+                  "interestToman": "0",
+                  "feeToman": "0",
+                  "expiresAt": "2026-10-08T20:30:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected body: invalid_request",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "product_not_found",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "invalid_product, calculation_failed or internal_error",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "priceToman",
+          "currency"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priceToman": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,11}$",
+            "maxLength": 12,
+            "description": "Integer TOMAN string; semantic inclusive bounds 5..100000000000. Fractional and zero-installment prices rejected."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "TOMAN"
+            ]
+          }
+        }
+      },
+      "Installment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "number",
+          "amountToman",
+          "dueDate"
+        ],
+        "properties": {
+          "number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "amountToman": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,11}$",
+            "maxLength": 12,
+            "description": "Positive integer TOMAN string, maximum 100000000000; backend validates semantic bounds."
+          },
+          "dueDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
+            "description": "Persian calendar YYYY/MM/DD, ASCII digits, date-only. Not ISO Gregorian date. Semantic date validity checked by backend."
+          }
+        }
+      },
+      "PaymentPlan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "product",
+          "currency",
+          "calendar",
+          "timeZone",
+          "baseDate",
+          "expiresAt",
+          "downPaymentToman",
+          "installments",
+          "totalPaymentToman",
+          "interestToman",
+          "feeToman"
+        ],
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "TOMAN"
+            ]
+          },
+          "calendar": {
+            "type": "string",
+            "enum": [
+              "persian"
+            ]
+          },
+          "timeZone": {
+            "type": "string",
+            "enum": [
+              "Asia/Tehran"
+            ]
+          },
+          "baseDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
+            "description": "Persian calendar YYYY/MM/DD, ASCII digits, date-only. Not ISO Gregorian date. Semantic date validity checked by backend."
+          },
+          "downPaymentToman": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,11}$",
+            "maxLength": 12,
+            "description": "Positive integer TOMAN string, maximum 100000000000; backend validates semantic bounds."
+          },
+          "installments": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "$ref": "#/components/schemas/Installment"
+            },
+            "description": "Ordered numbers 1,2,3,4; backend guarantees positive amounts, first three equal and fourth settles remainder."
+          },
+          "totalPaymentToman": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,11}$",
+            "maxLength": 12,
+            "description": "Integer TOMAN string; semantic inclusive bounds 5..100000000000. Fractional and zero-installment prices rejected."
+          },
+          "interestToman": {
+            "type": "string",
+            "enum": [
+              "0"
+            ]
+          },
+          "feeToman": {
+            "type": "string",
+            "enum": [
+              "0"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "description": "UTC instant at start of next Tehran local day, RFC3339 with Z. Expired when now >= expiresAt; no automatic recalculation."
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 599
+          },
+          "detail": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "invalid_request",
+              "product_not_found",
+              "invalid_product",
+              "calculation_failed",
+              "internal_error",
+              "not_found",
+              "method_not_allowed"
+            ]
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
