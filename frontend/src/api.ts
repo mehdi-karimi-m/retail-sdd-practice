@@ -1,6 +1,8 @@
 import type { Product, PaymentPlan, ProblemDetails, ValidityRequest, ValidityResponse } from './contracts'
 
 const genericError = 'نمایش برنامه در حال حاضر ممکن نیست'
+const problemCodes = ['invalid_request', 'product_not_found', 'invalid_product', 'calculation_failed',
+  'internal_error', 'not_found', 'method_not_allowed']
 const money = /^[1-9][0-9]{0,11}$/
 const persianDate = /^[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/
 const utc = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,7})?Z$/
@@ -37,7 +39,7 @@ export function isValidityResponse(value: unknown): value is ValidityResponse {
 }
 export function isProblemDetails(value: unknown, status: number): value is ProblemDetails {
   return record(value) && typeof value.type === 'string' && typeof value.title === 'string' &&
-    value.status === status && typeof value.detail === 'string' && typeof value.code === 'string' &&
+    value.status === status && typeof value.detail === 'string' && typeof value.code === 'string' && problemCodes.includes(value.code) &&
     (!Object.hasOwn(value, 'errors') || (record(value.errors) && Object.values(value.errors).every(item =>
       Array.isArray(item) && item.every(message => typeof message === 'string'))))
 }

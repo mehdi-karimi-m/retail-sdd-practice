@@ -63,6 +63,9 @@ describe('T015 — required-only runtime contract validation', () => {
     expect(isProblemDetails(problem, 400)).toBe(false)
     expect(isProblemDetails({ ...problem, traceId: 'extension' }, 500)).toBe(true)
   })
+  it('rejects a problem code outside the contract enum', () => {
+    expect(isProblemDetails({ ...problem, code: 'unknown_error' }, 500)).toBe(false)
+  })
 })
 
 describe('T015 — fetch and externally observable errors', () => {

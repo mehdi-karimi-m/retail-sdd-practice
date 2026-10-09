@@ -1,0 +1,591 @@
+{
+  "backend": {
+    "passed": 90,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "passed": 137,
+    "failed": 0,
+    "files": [
+      {
+        "file": "setup.node.test.ts",
+        "tests": [
+          {
+            "name": "uses Node without a DOM and can mock time and fetch",
+            "status": "passed"
+          },
+          {
+            "name": "restores real timers and fetch",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "App.expiry.test.tsx",
+        "tests": [
+          {
+            "name": "device wall clock offset -86400000 cannot change expiry",
+            "status": "passed"
+          },
+          {
+            "name": "device wall clock offset 86400000 cannot change expiry",
+            "status": "passed"
+          },
+          {
+            "name": "wall clock jumps -86400000 during display do not affect the budget",
+            "status": "passed"
+          },
+          {
+            "name": "wall clock jumps 86400000 during display do not affect the budget",
+            "status": "passed"
+          },
+          {
+            "name": "subtracts full request+response delay 0+0",
+            "status": "passed"
+          },
+          {
+            "name": "subtracts full request+response delay 1000+1000",
+            "status": "passed"
+          },
+          {
+            "name": "subtracts full request+response delay 1900+100",
+            "status": "passed"
+          },
+          {
+            "name": "uses the approved m0=1000,m1=3000 example through m=61000",
+            "status": "passed"
+          },
+          {
+            "name": "never displays a response delayed 60000ms",
+            "status": "passed"
+          },
+          {
+            "name": "never displays a response delayed 65000ms",
+            "status": "passed"
+          },
+          {
+            "name": "includes 2000ms JSON parsing delay in the response budget",
+            "status": "passed"
+          },
+          {
+            "name": "includes 60000ms JSON parsing delay in the response budget",
+            "status": "passed"
+          },
+          {
+            "name": "never displays expiry<=serverTime 2026-10-08T20:30:00Z",
+            "status": "passed"
+          },
+          {
+            "name": "never displays expiry<=serverTime 2026-10-08T20:30:01Z",
+            "status": "passed"
+          },
+          {
+            "name": "checks with server before redisplay after visibilitychange",
+            "status": "passed"
+          },
+          {
+            "name": "checks with server before redisplay after focus",
+            "status": "passed"
+          },
+          {
+            "name": "checks with server before redisplay after pageshow",
+            "status": "passed"
+          },
+          {
+            "name": "checks with server before redisplay after resume",
+            "status": "passed"
+          },
+          {
+            "name": "marks pagehide snapshot untrusted even if performance.now stopped",
+            "status": "passed"
+          },
+          {
+            "name": "marks freeze snapshot untrusted even if performance.now stopped",
+            "status": "passed"
+          },
+          {
+            "name": "coalesces simultaneous visible/focus/pageshow into one pending check",
+            "status": "passed"
+          },
+          {
+            "name": "successful check restores the same snapshot with a fresh RTT-adjusted budget",
+            "status": "passed"
+          },
+          {
+            "name": "true validity delayed beyond its budget cannot restore the old plan",
+            "status": "passed"
+          },
+          {
+            "name": "failed network check keeps old plan hidden; retry only POSTs",
+            "status": "passed"
+          },
+          {
+            "name": "failed HTTP500 check keeps old plan hidden; retry only POSTs",
+            "status": "passed"
+          },
+          {
+            "name": "failed JSON check keeps old plan hidden; retry only POSTs",
+            "status": "passed"
+          },
+          {
+            "name": "a pending plan request that crosses suspension cannot grant ready directly",
+            "status": "passed"
+          },
+          {
+            "name": "a validity response crossing suspension requires a new active-epoch check",
+            "status": "passed"
+          },
+          {
+            "name": "manual recalculation after expiry GETs a fresh day; stale expiry callback cannot hide it",
+            "status": "passed"
+          },
+          {
+            "name": "old validity cannot overwrite or expire a newly requested snapshot",
+            "status": "passed"
+          },
+          {
+            "name": "replacing a plan before its old timer fires preserves the replacement",
+            "status": "passed"
+          },
+          {
+            "name": "unmount removes timers and lifecycle listeners and aborts outstanding work",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "App.test.tsx",
+        "tests": [
+          {
+            "name": "loads only fixed product, then displays complete plan after user action",
+            "status": "passed"
+          },
+          {
+            "name": "preserves every digit at the inclusive price cap",
+            "status": "passed"
+          },
+          {
+            "name": "hides old plan and keeps product on network",
+            "status": "passed"
+          },
+          {
+            "name": "hides old plan and keeps product on problem without errors",
+            "status": "passed"
+          },
+          {
+            "name": "hides old plan and keeps product on bad JSON",
+            "status": "passed"
+          },
+          {
+            "name": "hides old plan and keeps product on bad structure",
+            "status": "passed"
+          },
+          {
+            "name": "retrying calculation GETs a new plan without refetching a valid product",
+            "status": "passed"
+          },
+          {
+            "name": "offers initial product retry and retries only the failed product endpoint",
+            "status": "passed"
+          },
+          {
+            "name": "does not let an old response overwrite a newer request",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "api.test.ts",
+        "tests": [
+          {
+            "name": "rejects trailing whitespace in baseDate",
+            "status": "passed"
+          },
+          {
+            "name": "rejects trailing whitespace in serverTime",
+            "status": "passed"
+          },
+          {
+            "name": "rejects trailing whitespace in expiresAt",
+            "status": "passed"
+          },
+          {
+            "name": "rejects trailing whitespace in downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "honors additionalProperties=false on successful response schemas",
+            "status": "passed"
+          },
+          {
+            "name": "accepts full valid product, plan, cap and validity response",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing product required field name",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing product required field priceToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing product required field currency",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field product",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field currency",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field calendar",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field timeZone",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field baseDate",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field serverTime",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field expiresAt",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field installments",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field totalPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field interestToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing plan required field feeToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed totalPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed interestToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed downPaymentToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed feeToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed currency",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed calendar",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed timeZone",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed baseDate",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed serverTime",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed expiresAt",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed serverTime",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed expiresAt",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing installment required number",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing installment required amountToman",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing installment required dueDate",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing installment structure",
+            "status": "passed"
+          },
+          {
+            "name": "rejects duplicate installment structure",
+            "status": "passed"
+          },
+          {
+            "name": "rejects number amount installment structure",
+            "status": "passed"
+          },
+          {
+            "name": "rejects bad due date installment structure",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing validity required baseDate",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing validity required expiresAt",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing validity required serverTime",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing validity required isValid",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed validity {\"isValid\":\"true\"}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed validity {\"baseDate\":\"bad\"}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed validity {\"serverTime\":\"bad\"}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects malformed validity {\"expiresAt\":\"bad\"}",
+            "status": "passed"
+          },
+          {
+            "name": "accepts valid ProblemDetails with optional errors undefined",
+            "status": "passed"
+          },
+          {
+            "name": "accepts valid ProblemDetails with optional errors {}",
+            "status": "passed"
+          },
+          {
+            "name": "accepts valid ProblemDetails with optional errors {\"priceToman\":[\"قیمت نامعتبر است\"]}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects errors present with invalid shape null",
+            "status": "passed"
+          },
+          {
+            "name": "rejects errors present with invalid shape undefined",
+            "status": "passed"
+          },
+          {
+            "name": "rejects errors present with invalid shape {\"priceToman\":\"bad\"}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects errors present with invalid shape {\"priceToman\":[1]}",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing ProblemDetails required type",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing ProblemDetails required title",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing ProblemDetails required status",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing ProblemDetails required detail",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing ProblemDetails required code",
+            "status": "passed"
+          },
+          {
+            "name": "rejects status mismatch but accepts allowed problem extensions",
+            "status": "passed"
+          },
+          {
+            "name": "rejects a problem code outside the contract enum",
+            "status": "passed"
+          },
+          {
+            "name": "GETs product without input and forwards cancellation",
+            "status": "passed"
+          },
+          {
+            "name": "GETs the whole payment plan",
+            "status": "passed"
+          },
+          {
+            "name": "POSTs only old snapshot to validity; never GETs a new plan",
+            "status": "passed"
+          },
+          {
+            "name": "rejects a validity response referring to a different snapshot",
+            "status": "passed"
+          },
+          {
+            "name": "preserves valid Persian detail when errors is absent",
+            "status": "passed"
+          },
+          {
+            "name": "reports generic error for network",
+            "status": "passed"
+          },
+          {
+            "name": "reports generic error for JSON",
+            "status": "passed"
+          },
+          {
+            "name": "reports generic error for invalid 200",
+            "status": "passed"
+          },
+          {
+            "name": "reports generic error for invalid errors",
+            "status": "passed"
+          },
+          {
+            "name": "reports generic error for status mismatch",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "format.test.ts",
+        "tests": [
+          {
+            "name": "preserves 1000000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 300000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 175000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 1000010 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 300003 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 175001 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 175004 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 1000001 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 5 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 1 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 0 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 100000000000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 30000000000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "preserves 17500000000 as integer TOMAN",
+            "status": "passed"
+          },
+          {
+            "name": "only changes display digits of 1405/07/16",
+            "status": "passed"
+          },
+          {
+            "name": "only changes display digits of 1404/12/29",
+            "status": "passed"
+          },
+          {
+            "name": "only changes display digits of 1403/12/30",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "setup.test.ts",
+        "tests": [
+          {
+            "name": "supports DOM rendering, fetch stubs and controlled timers",
+            "status": "passed"
+          },
+          {
+            "name": "leaves no DOM, fetch, environment or fake timers from the previous test",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  }
+}

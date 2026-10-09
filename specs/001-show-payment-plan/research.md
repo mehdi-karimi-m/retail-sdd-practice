@@ -160,3 +160,17 @@ jsdom30.1.2 به Node ^22.22.2 یا ^24.15.0 یا >=26 نیاز دارد و Node
 منابع: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)،
 [jsdom](https://github.com/jsdom/jsdom)،
 [xUnit v3 و runner اجرایی](https://xunit.net/docs/getting-started/v3/getting-started).
+
+## تأیید نصب و ساخت Phase 4 — 2026-10-09
+
+نسخه‌های واقعاً نصب‌شده: SDK10.0.112، ASP.NET/Core10.0.12، Node24.18.0، npm11.16.0؛
+React/DOM/types19.3.0، typesNode24.19.1، TypeScript6.0.2، Vite8.3.3، plugin-react6.1.2،
+Vitest5.0.3، RTL16.3.3، DOM10.4.2 و jsdom30.1.2 با npm ls --depth=0 تأیید شدند.
+xunit.v3 4.0.1 و Mvc.Testing10.0.12 با lock و اجرای runner ثابت ماندند.
+
+dotnet restore retail.sln --locked-mode --force و dotnet build --no-restore موفق با
+صفر هشدار/خطا؛ npm --prefix frontend ci و build موفق. SHA-256 هر سه lock تغییر نکرد.
+137 تست فرانت‌اند و90 تست بک‌اند موفق‌اند؛ ابزار یا وابستگی جدید لازم نشد.
+بازیابی ممکن است از cache NuGet استفاده کرده باشد؛ نصب روی دستگاه خالی/پلتفرم دیگر
+بررسی نشده است. این نتیجهٔ جاری است؛ یادداشت‌های «هنوز نصب نشده» بالاتر به زمان طراحی
+تعلق دارند. جزئیات در [phase4-validation-report.md](phase4-validation-report.md) است.

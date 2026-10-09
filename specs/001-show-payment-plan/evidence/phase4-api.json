@@ -1,0 +1,166 @@
+[
+  {
+    "case": "product",
+    "status": 200,
+    "schema": "Product",
+    "cacheControl": "no-store",
+    "response": {
+      "name": "محصول نمونه",
+      "priceToman": "1000000",
+      "currency": "TOMAN"
+    }
+  },
+  {
+    "case": "plan",
+    "status": 200,
+    "schema": "PaymentPlan",
+    "cacheControl": "no-store",
+    "response": {
+      "product": {
+        "name": "محصول نمونه",
+        "priceToman": "1000000",
+        "currency": "TOMAN"
+      },
+      "currency": "TOMAN",
+      "calendar": "persian",
+      "timeZone": "Asia/Tehran",
+      "baseDate": "1405/07/17",
+      "serverTime": "2026-10-09T10:02:33.1637972Z",
+      "expiresAt": "2026-10-09T20:30:00Z",
+      "downPaymentToman": "300000",
+      "installments": [
+        {
+          "number": 1,
+          "amountToman": "175000",
+          "dueDate": "1405/08/17"
+        },
+        {
+          "number": 2,
+          "amountToman": "175000",
+          "dueDate": "1405/09/17"
+        },
+        {
+          "number": 3,
+          "amountToman": "175000",
+          "dueDate": "1405/10/17"
+        },
+        {
+          "number": 4,
+          "amountToman": "175000",
+          "dueDate": "1405/11/17"
+        }
+      ],
+      "totalPaymentToman": "1000000",
+      "interestToman": "0",
+      "feeToman": "0"
+    }
+  },
+  {
+    "case": "query",
+    "status": 200,
+    "schema": "PaymentPlan",
+    "cacheControl": "no-store",
+    "response": {
+      "product": {
+        "name": "محصول نمونه",
+        "priceToman": "1000000",
+        "currency": "TOMAN"
+      },
+      "currency": "TOMAN",
+      "calendar": "persian",
+      "timeZone": "Asia/Tehran",
+      "baseDate": "1405/07/17",
+      "serverTime": "2026-10-09T10:02:33.1678385Z",
+      "expiresAt": "2026-10-09T20:30:00Z",
+      "downPaymentToman": "300000",
+      "installments": [
+        {
+          "number": 1,
+          "amountToman": "175000",
+          "dueDate": "1405/08/17"
+        },
+        {
+          "number": 2,
+          "amountToman": "175000",
+          "dueDate": "1405/09/17"
+        },
+        {
+          "number": 3,
+          "amountToman": "175000",
+          "dueDate": "1405/10/17"
+        },
+        {
+          "number": 4,
+          "amountToman": "175000",
+          "dueDate": "1405/11/17"
+        }
+      ],
+      "totalPaymentToman": "1000000",
+      "interestToman": "0",
+      "feeToman": "0"
+    }
+  },
+  {
+    "case": "validity",
+    "status": 200,
+    "schema": "ValidityResponse",
+    "cacheControl": "no-store",
+    "response": {
+      "baseDate": "1405/07/17",
+      "serverTime": "2026-10-09T10:05:30.4879815Z",
+      "expiresAt": "2026-10-09T20:30:00Z",
+      "isValid": true
+    }
+  },
+  {
+    "case": "old-validity",
+    "status": 200,
+    "schema": "ValidityResponse",
+    "cacheControl": "no-store",
+    "response": {
+      "baseDate": "1405/07/16",
+      "serverTime": "2026-10-09T10:05:30.4939856Z",
+      "expiresAt": "2026-10-08T20:30:00Z",
+      "isValid": false
+    }
+  },
+  {
+    "case": "400",
+    "status": 400,
+    "schema": "ProblemDetails",
+    "cacheControl": "no-store",
+    "response": {
+      "type": "about:blank",
+      "title": "درخواست معتبر نیست",
+      "status": 400,
+      "detail": "ساختار درخواست معتبر نیست.",
+      "code": "invalid_request"
+    }
+  },
+  {
+    "case": "404",
+    "status": 404,
+    "schema": "ProblemDetails",
+    "cacheControl": "no-store",
+    "response": {
+      "type": "about:blank",
+      "title": "مسیر پیدا نشد",
+      "status": 404,
+      "detail": "مسیر درخواست‌شده وجود ندارد.",
+      "code": "not_found"
+    }
+  },
+  {
+    "case": "405",
+    "status": 405,
+    "schema": "ProblemDetails",
+    "cacheControl": "no-store",
+    "response": {
+      "type": "about:blank",
+      "title": "روش درخواست مجاز نیست",
+      "status": 405,
+      "detail": "این روش برای مسیر درخواست‌شده مجاز نیست.",
+      "code": "method_not_allowed"
+    }
+  }
+]
