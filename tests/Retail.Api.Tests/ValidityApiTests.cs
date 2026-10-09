@@ -82,4 +82,33 @@ public sealed class ValidityApiTests
     }
     private sealed class BrokenClock : TimeProvider
     { public override DateTimeOffset GetUtcNow() => throw new InvalidOperationException("private clock failure"); }
+
+    [Fact]
+    public async Task UnrepresentableServerDateIs500RatherThanInvalidClientRequest()
+    {
+        await using var factory = new ApiTestFactory(new TestTimeProvider(DateTimeOffset.MinValue));
+        using var client = factory.CreateClient(); using var content = Body();
+        using var response = await client.PostAsync(Path, content, TestContext.Current.CancellationToken);
+        await ContractAssert.Problem(response, 500, "internal_error");
+    }
+
+    [Fact]
+    public async Task PersianDateWithTrailingNewlineIsInvalidRequest()
+    {
+        await using var factory = new ApiTestFactory(AcceptanceFixtures.Clock());
+        using var client = factory.CreateClient();
+        using var content = new StringContent("{\"baseDate\":\"1405/07/16\\n\",\"expiresAt\":\"2026-10-08T20:30:00Z\"}", Encoding.UTF8, "application/json");
+        using var response = await client.PostAsync(Path, content, TestContext.Current.CancellationToken);
+        await ContractAssert.Problem(response, 400, "invalid_request");
+    }
+
+    [Fact]
+    public async Task NonJsonContentTypeIsRejectedWithoutReadingClock()
+    {
+        var clock = AcceptanceFixtures.Clock();
+        await using var factory = new ApiTestFactory(clock); using var client = factory.CreateClient();
+        using var content = new StringContent("{\"baseDate\":\"1405/07/16\",\"expiresAt\":\"2026-10-08T20:30:00Z\"}", Encoding.UTF8, "text/plain");
+        using var response = await client.PostAsync(Path, content, TestContext.Current.CancellationToken);
+        await ContractAssert.Problem(response, 400, "invalid_request"); Assert.Equal(0, clock.UtcNowReadCount);
+    }
 }

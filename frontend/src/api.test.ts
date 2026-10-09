@@ -3,6 +3,15 @@ import { checkValidity, fetchPaymentPlan, fetchProduct, isPaymentPlan, isProblem
 import { cappedPlan, plan, problem, product, response, validity } from './test/fixtures'
 
 describe('T015 — required-only runtime contract validation', () => {
+  it.each(['baseDate', 'serverTime', 'expiresAt', 'downPaymentToman'])('rejects trailing whitespace in %s', field => {
+    const value = plan()
+    expect(isPaymentPlan({ ...value, [field]: String(value[field as keyof typeof value]) + '\n' })).toBe(false)
+  })
+  it('honors additionalProperties=false on successful response schemas', () => {
+    expect(isProduct({ ...product, extra: 1 })).toBe(false)
+    expect(isPaymentPlan({ ...plan(), extra: 1 })).toBe(false)
+    expect(isValidityResponse({ ...validity(), installments: [] })).toBe(false)
+  })
   it('accepts full valid product, plan, cap and validity response', () => {
     expect(isProduct(product)).toBe(true)
     expect(isPaymentPlan(plan())).toBe(true)

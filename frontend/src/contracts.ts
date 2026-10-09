@@ -1,4 +1,4 @@
-// Minimal compile-time shapes for acceptance tests; runtime guards are still unimplemented.
+// Contract shapes; api.ts validates responses before they enter UI state.
 export interface Product { name: string; priceToman: string; currency: 'TOMAN' }
 export interface Installment { number: number; amountToman: string; dueDate: string }
 export interface PaymentPlan {
