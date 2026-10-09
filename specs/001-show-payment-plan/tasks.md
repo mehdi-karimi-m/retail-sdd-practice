@@ -16,7 +16,7 @@ description: "وظایف اجرای قابلیت نمایش برنامهٔ پر�
 مقادیر expected ثابت باشند؛ تولید expected با اجرای کد تحت آزمون مجاز نیست.
 
 **Organization**: مشخصات فقط یک داستان US1 با اولویت P1 دارد؛ همهٔ رفتارهای برنامه، خطا و
-انقضا و بررسی اعتبار در همان داستان اجرا می‌شوند. این فایل وضعیت وظایف را نگه می‌دارد؛ Phase 1 در2026-10-09 آغاز شد و فقط کارهای واقعاً تکمیل‌شده تیک دارند. اصلاح I1 در 2026-10-09 زمان مرجع سرور و بررسی اعتبار را اضافه کرد.
+انقضا و بررسی اعتبار در همان داستان اجرا می‌شوند. این فایل وضعیت وظایف را نگه می‌دارد؛ Phase 1 و Phase 2 در2026-10-09 اجرا شدند و فقط کارهای واقعاً تکمیل‌شده تیک دارند. اصلاح I1 در 2026-10-09 زمان مرجع سرور و بررسی اعتبار را اضافه کرد.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -52,9 +52,9 @@ description: "وظایف اجرای قابلیت نمایش برنامهٔ پر�
 
 **CRITICAL**: پیش از شروع فاز۳، T001 تا T008 کامل شوند.
 
-- [ ] T006 آماده‌سازی DI، ProblemDetails با JSON camelCase و لاگ خطا در `backend/Retail.Api/Program.cs`؛ timezone `Asia/Tehran` و امکانات PersianCalendar/ICU در شروع بررسی و خرابی صریح گزارش شوند؛ fallback به UTC/میلادی یا globalization invariant مجاز نیست؛ API برای تست با WebApplicationFactory قابل دسترسی باشد. وابستگی: T004 و تکمیل فاز۱.
-- [ ] T007 ایجاد harness در `tests/Retail.Api.Tests/ApiTestFactory.cs` و ساعت جعلی در `tests/Retail.Api.Tests/TestTimeProvider.cs` برای HTTP، ساعت ثابت/شمارش خواندن ساعت و جایگزینی منبع محصول از DI؛ endpoint یا header مخصوص تست اضافه نشود؛ hooks جایگزینیِ منبع داستان در T012/T020 تکمیل شوند. وابستگی: T006.
-- [ ] T008 [P] پیکربندی تست Node و jsdom در `frontend/vitest.config.ts` و cleanup DOM/fetch/fake timers در `frontend/src/test/setup.ts`؛ تست‌ها ساعت واقعی و backend زنده لازم نداشته باشند. وابستگی: T005 و تکمیل فاز۱؛ موازی با T006–T007.
+- [X] T006 آماده‌سازی DI، ProblemDetails با JSON camelCase و لاگ خطا در `backend/Retail.Api/Program.cs`؛ timezone `Asia/Tehran` و امکانات PersianCalendar/ICU در شروع بررسی و خرابی صریح گزارش شوند؛ fallback به UTC/میلادی یا globalization invariant مجاز نیست؛ API برای تست با WebApplicationFactory قابل دسترسی باشد. وابستگی: T004 و تکمیل فاز۱.
+- [X] T007 ایجاد harness در `tests/Retail.Api.Tests/ApiTestFactory.cs` و ساعت جعلی در `tests/Retail.Api.Tests/TestTimeProvider.cs` برای HTTP، ساعت ثابت/شمارش خواندن ساعت و جایگزینی منبع محصول از DI؛ endpoint یا header مخصوص تست اضافه نشود؛ hooks جایگزینیِ منبع داستان در T012/T020 تکمیل شوند. وابستگی: T006.
+- [X] T008 [P] پیکربندی تست Node و jsdom در `frontend/vitest.config.ts` و cleanup DOM/fetch/fake timers در `frontend/src/test/setup.ts`؛ تست‌ها ساعت واقعی و backend زنده لازم نداشته باشند. وابستگی: T005 و تکمیل فاز۱؛ موازی با T006–T007.
 
 **Checkpoint**: زیرساخت آماده است؛ تست‌های داستان می‌توانند در فایل‌های جدا نوشته شوند.
 
@@ -215,6 +215,18 @@ T017: frontend/src/App.expiry.test.tsx
 - ۳۶ وظیفه: Setup پنج، Foundational سه، US1 بیست‌وپنج، بررسی نهایی سه.
 - ۹ وظیفهٔ نوشتن تست و ۲ وظیفهٔ اجرای مجموعه‌ها در US1؛ بررسی مرورگر در فاز۴ مکمل است.
 - coverage: سناریوهای۱–۲۴ و FR-001–017 / SC-001–009 به وظایف تست و اجرا نگاشت شده‌اند.
-- در مرحلهٔ تولید اولیه هیچ کدی ساخته نشده بود؛ وضعیت فعلی Phase 1 در checkboxها و quickstart ثبت می‌شود.
+- در مرحلهٔ تولید اولیه هیچ کدی ساخته نشده بود؛ وضعیت فعلی Phase 1/2 در checkboxها و quickstart ثبت می‌شود.
 - اصل V تست‌های backend و توافق Q4 تست کامپوننت را لازم می‌کنند؛ تست‌ها اختیاری نیستند.
-- مسیرهای Phase 1 ایجاد شده‌اند؛ مسیرهای وظایف بعدی هنوز هدف پیاده‌سازی آینده‌اند.
+- مسیرهای Phase 1/2 ایجاد شده‌اند؛ مسیرهای وظایف بعدی هنوز هدف پیاده‌سازی آینده‌اند.
+
+### شواهد تکمیل Phase 2 — 2026-10-09
+
+- T006: DI برای TimeProvider و timezone، خطاهای فارسی camelCase، ثبت استثنا در لاگ،
+  Program عمومی برای WebApplicationFactory؛ راه‌اندازی invariant (با دو حالت culture)
+  و TZDIR خالی به‌طور صریح شکست خوردند؛ هیچ fallback وجود ندارد.
+- T007: factory با TestServer، ساعت UTC قابل کنترل/شمارش و callback جایگزینی سرویس‌ها؛
+  هیچ route/header تست در API ایجاد نشد. اتصال callback به نوع منبع محصول در T012/T020 است.
+- T008: پروژه‌های Node و jsdom در Vitest، setup مشترک cleanup DOM/fetch/timers/mocks/env؛
+  چهار تست جداسازی موفق؛ محیط تست backend زنده یا ساعت واقعی لازم ندارد.
+- ساخت .NET با صفر هشدار/خطا و شش تست زیرساخت موفق؛ ساخت TS/Vite و چهار تست frontend موفق.
+- فقط T001–T008 کامل‌اند؛ Phase 3 آغاز نشده، تست‌های پذیرش مالی/تاریخ و endpointها ساخته نشده‌اند.

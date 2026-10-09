@@ -125,3 +125,35 @@ React/TS و وابستگی‌های تست است؛ پیکربندی jsdom/clean
 فقط T001–T005 کامل شدند. برنامهٔ بک‌اند هنوز هیچ endpoint قابلیت ندارد و فرانت‌اند
 فقط entry point خالی دارد؛ تست‌های مالی/تاریخ/API/UI هنوز نوشته نشده‌اند. بخش‌های بررسی
 قرارداد و کاربر در این راهنما متعلق به فازهای بعدند و در این مرحله اجرا نشده‌اند.
+
+## آماده‌سازی Phase 2 — 2026-10-09
+
+T006–T008 کامل شدند. `Program.cs` امکانات فرهنگ fa-IR/PersianCalendar و timezone تهران
+را در شروع بررسی می‌کند؛ TimeProvider.System در DI است و ApiTestFactory آن را با ساعت
+ثابت تست جایگزین می‌کند. callback سرویس‌های factory برای جایگزینی منبع آینده فراهم است؛
+مدل و منبع محصول هنوز وجود ندارند.
+
+خطاهای عمومی 400/404/405/500 با application/problem+json، type/title/status/detail/code
+و متن فارسی ارسال می‌شوند؛ errors الزامی نیست. استثنا در سرور ثبت و از پاسخ حذف می‌شود،
+حتی در Development. pipeline فاقد endpoint محصول/برنامه/اعتبار است.
+
+بررسی‌های انجام‌شده:
+
+- `dotnet build retail.sln --no-restore`: صفر هشدار و صفر خطا.
+- `dotnet run --project tests/Retail.Api.Tests --no-build --no-restore`: شش تست موفق؛
+  404، خطاهای400/405 بدون body، استثنای500 در Production/Development و جایگزینی DI/ساعت.
+- اجرای DLL بک‌اند در پردازش جدا با DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1، با
+  PREDEFINED_CULTURES_ONLY=0 نیز، و با TZDIR پوشهٔ خالی: شکست صریح پیش از سرویس‌دهی؛
+  محیط و ساعت سیستم اصلی تغییر نکردند. فایل core dump تولید نشد.
+- `npm --prefix frontend run test -- --run`: چهار تست موفق در دو پروژهٔ Node/jsdom؛
+  DOM، fetch و timerها و متغیر محیطی میان تست‌ها پاک شدند.
+- `npm --prefix frontend run build`: بررسی نوع شامل vitest.config و ساخت Vite موفق.
+- `git diff --check`: موفق؛ قواعد فعلی gitignore خروجی‌های این ابزارها را پوشش می‌دهند.
+
+Vitest فایل‌های `*.node.test.ts` را در Node و سایر `*.test.ts/tsx` یا `*.spec.ts/tsx`
+را در jsdom اجرا می‌کند. تست‌ها import صریح APIهای vitest دارند؛ globals=false است.
+این تست‌های زیرساخت جای معیارهای پذیرش Phase 3 را نمی‌گیرند. فاز سوم اجرا نشده است.
+
+منابع تنظیمات: [خطاهای ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0)،
+[WebApplicationFactory](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0)،
+[setupFiles در Vitest](https://vitest.dev/config/setupfiles).
