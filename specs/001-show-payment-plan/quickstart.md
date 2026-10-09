@@ -157,3 +157,12 @@ Vitest فایل‌های `*.node.test.ts` را در Node و سایر `*.test.ts/
 منابع تنظیمات: [خطاهای ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0)،
 [WebApplicationFactory](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0)،
 [setupFiles در Vitest](https://vitest.dev/config/setupfiles).
+
+## تست‌های قرمز US1 — 2026-10-09
+
+T009–T017 نوشته و اجرا شدند؛ ساخت .NET/TypeScript موفق است. تست‌های پذیرش با
+placeholderهای رفتار و مسیرهای HTTP پیاده‌سازی‌نشده قرمز هستند؛ این مرحله منطق محصول
+ندارد. نتیجه و فرمان‌های بازتولید در [red-test-report.md](red-test-report.md) آمده‌اند.
+87 تست بک‌اند:8 موفق/79 شکست؛ 131 تست فرانت‌اند:4 موفق/127 شکست.
+موفقیت تست‌های زیرساخت به معنی موفقیت قابلیت نیست؛ assertionهای ادامهٔ UI/انقضا پس از
+پیش‌شرط نمایش محصول فعلاً قابل تأیید نیستند. فقط وظایف نوشتن تست تیک خوردند.
