@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Retail Product Payment Preview",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Read-only preview; no orders, persistence or payments. See api.md for semantic invariants and validation."
   },
   "servers": [
@@ -166,7 +166,8 @@
                   "totalPaymentToman": "1000000",
                   "interestToman": "0",
                   "feeToman": "0",
-                  "expiresAt": "2026-10-08T20:30:00Z"
+                  "expiresAt": "2026-10-08T20:30:00Z",
+                  "serverTime": "2026-10-08T12:00:00Z"
                 }
               }
             }
@@ -213,6 +214,94 @@
           },
           "500": {
             "description": "invalid_product, calculation_failed or internal_error",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/payment-plan/validity": {
+      "post": {
+        "operationId": "checkPaymentPlanValidity",
+        "description": "Stateless check of a prior snapshot only. Never calculates a payment plan. Unknown query ignored. Valid only for current Tehran base day, matching canonical expiry and serverTime before expiry.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidityRequest"
+              },
+              "example": {
+                "baseDate": "1405/07/16",
+                "expiresAt": "2026-10-08T20:30:00Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Snapshot validity and fresh server time only. Expired/mismatched snapshot gives isValid=false.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidityResponse"
+                },
+                "example": {
+                  "baseDate": "1405/07/16",
+                  "serverTime": "2026-10-08T12:00:00Z",
+                  "expiresAt": "2026-10-08T20:30:00Z",
+                  "isValid": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid_request: invalid JSON, fields or dates.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal_error: cannot check; client must keep old plan hidden.",
             "headers": {
               "Cache-Control": {
                 "schema": {
@@ -305,7 +394,8 @@
           "installments",
           "totalPaymentToman",
           "interestToman",
-          "feeToman"
+          "feeToman",
+          "serverTime"
         ],
         "properties": {
           "product": {
@@ -371,7 +461,13 @@
             "type": "string",
             "format": "date-time",
             "pattern": "Z$",
-            "description": "UTC instant at start of next Tehran local day, RFC3339 with Z. Expired when now >= expiresAt; no automatic recalculation."
+            "description": "Start of next Tehran day in UTC; client uses serverTime, subtracts full monotonic RTT, then monotonic elapsed; validity recheck required after inactivity."
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "description": "Server UTC reference instant, not client wall clock."
           }
         }
       },
@@ -422,6 +518,59 @@
           }
         },
         "additionalProperties": true
+      },
+      "ValidityRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "baseDate",
+          "expiresAt"
+        ],
+        "properties": {
+          "baseDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
+            "description": "Persian calendar YYYY/MM/DD, ASCII digits, date-only. Not ISO Gregorian date. Semantic date validity checked by backend."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "description": "Start of next Tehran day in UTC; client uses serverTime, subtracts full monotonic RTT, then monotonic elapsed; validity recheck required after inactivity."
+          }
+        }
+      },
+      "ValidityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "baseDate",
+          "serverTime",
+          "expiresAt",
+          "isValid"
+        ],
+        "properties": {
+          "baseDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
+            "description": "Persian calendar YYYY/MM/DD, ASCII digits, date-only. Not ISO Gregorian date. Semantic date validity checked by backend."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "description": "Start of next Tehran day in UTC; client uses serverTime, subtracts full monotonic RTT, then monotonic elapsed; validity recheck required after inactivity."
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "description": "Server UTC reference instant, not client wall clock."
+          },
+          "isValid": {
+            "type": "boolean"
+          }
+        }
       }
     }
   }
