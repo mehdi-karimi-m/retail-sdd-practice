@@ -16,7 +16,7 @@ description: "وظایف اجرای قابلیت نمایش برنامهٔ پر�
 مقادیر expected ثابت باشند؛ تولید expected با اجرای کد تحت آزمون مجاز نیست.
 
 **Organization**: مشخصات فقط یک داستان US1 با اولویت P1 دارد؛ همهٔ رفتارهای برنامه، خطا و
-انقضا و بررسی اعتبار در همان داستان اجرا می‌شوند. این فایل فهرست کار آینده است؛ هیچ وظیفه‌ای اجرا نشده است. اصلاح I1 در 2026-10-09 زمان مرجع سرور و بررسی اعتبار را اضافه کرد.
+انقضا و بررسی اعتبار در همان داستان اجرا می‌شوند. این فایل وضعیت وظایف را نگه می‌دارد؛ Phase 1 در2026-10-09 آغاز شد و فقط کارهای واقعاً تکمیل‌شده تیک دارند. اصلاح I1 در 2026-10-09 زمان مرجع سرور و بررسی اعتبار را اضافه کرد.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -36,11 +36,11 @@ description: "وظایف اجرای قابلیت نمایش برنامهٔ پر�
 
 **Purpose**: ایجاد پروژه‌های کوچک و تثبیت ابزارها مطابق research؛ بدون منطق قابلیت.
 
-- [ ] T001 تثبیت SDK موجود 10.0.112 در `global.json` و ثبت نسخهٔ Node24/npm11 و روش restore/build در `specs/001-show-payment-plan/quickstart.md`؛ محیط فعلی را بررسی و بدون نیاز به قابلیت جدید به SDK قدیمی‌تر تغییر ندهید.
-- [ ] T002 ایجاد پروژهٔ Minimal API با net10.0/C#14 در `backend/Retail.Api/Retail.Api.csproj` و پروژهٔ تست executable net10.0 در `tests/Retail.Api.Tests/Retail.Api.Tests.csproj` و افزودن هر دو به `retail.sln`؛ نمونه‌های scaffold خارج از دامنه حذف شوند. وابستگی: T001.
-- [ ] T003 [P] ایجاد React/TypeScript در `frontend/package.json` و `frontend/src/main.tsx` با React/DOM19.3.0، TS6.0.2، Vite8.3.3 و plugin-react6.1.2؛ `frontend/tsconfig.json` و تنظیمات وابسته strict، isolatedModules و target ES2022 داشته باشند و build برابر `tsc -b && vite build` باشد. وابستگی: T001؛ موازی با T002.
-- [ ] T004 تثبیت xunit.v3 4.0.1 و Microsoft.AspNetCore.Mvc.Testing10.0.12 در `tests/Retail.Api.Tests/Retail.Api.Tests.csproj`، reference پروژهٔ API و lockهای `backend/Retail.Api/packages.lock.json` و `tests/Retail.Api.Tests/packages.lock.json`؛ اجرای native تست با dotnet run باشد. وابستگی: T002.
-- [ ] T005 [P] تنظیم Vitest5.0.3، React Testing Library، peer `@testing-library/dom` و jsdom در `frontend/package.json`؛ نسخه‌های پایدار سازگار ابزارهای تست را بررسی و دقیق تثبیت، test را vitest و lock را در `frontend/package-lock.json` تولید کنید؛ `frontend/vite.config.ts` پورت5173 و proxy مسیر /api به localhost:5080 داشته باشد. وابستگی: T003؛ موازی با T004.
+- [X] T001 تثبیت SDK موجود 10.0.112 در `global.json` و ثبت نسخهٔ Node24/npm11 و روش restore/build در `specs/001-show-payment-plan/quickstart.md`؛ محیط فعلی را بررسی و بدون نیاز به قابلیت جدید به SDK قدیمی‌تر تغییر ندهید.
+- [X] T002 ایجاد پروژهٔ Minimal API با net10.0/C#14 در `backend/Retail.Api/Retail.Api.csproj` و پروژهٔ تست executable net10.0 در `tests/Retail.Api.Tests/Retail.Api.Tests.csproj` و افزودن هر دو به `retail.sln`؛ نمونه‌های scaffold خارج از دامنه حذف شوند. وابستگی: T001.
+- [X] T003 [P] ایجاد React/TypeScript در `frontend/package.json` و `frontend/src/main.tsx` با React/DOM19.3.0، TS6.0.2، Vite8.3.3 و plugin-react6.1.2؛ `frontend/tsconfig.json` و تنظیمات وابسته strict، isolatedModules و target ES2022 داشته باشند و build برابر `tsc -b && vite build` باشد. وابستگی: T001؛ موازی با T002.
+- [X] T004 تثبیت xunit.v3 4.0.1 و Microsoft.AspNetCore.Mvc.Testing10.0.12 در `tests/Retail.Api.Tests/Retail.Api.Tests.csproj`، reference پروژهٔ API و lockهای `backend/Retail.Api/packages.lock.json` و `tests/Retail.Api.Tests/packages.lock.json`؛ اجرای native تست با dotnet run باشد. وابستگی: T002.
+- [X] T005 [P] تنظیم Vitest5.0.3، React Testing Library، peer `@testing-library/dom` و jsdom در `frontend/package.json`؛ نسخه‌های پایدار سازگار ابزارهای تست را بررسی و دقیق تثبیت، test را vitest و lock را در `frontend/package-lock.json` تولید کنید؛ `frontend/vite.config.ts` پورت5173 و proxy مسیر /api به localhost:5080 داشته باشد. وابستگی: T003؛ موازی با T004.
 
 **Checkpoint**: پروژه‌ها و lockها موجود، TypeScript قابل بررسی و اجرای هر دو runner مشخص باشد.
 
@@ -215,6 +215,6 @@ T017: frontend/src/App.expiry.test.tsx
 - ۳۶ وظیفه: Setup پنج، Foundational سه، US1 بیست‌وپنج، بررسی نهایی سه.
 - ۹ وظیفهٔ نوشتن تست و ۲ وظیفهٔ اجرای مجموعه‌ها در US1؛ بررسی مرورگر در فاز۴ مکمل است.
 - coverage: سناریوهای۱–۲۴ و FR-001–017 / SC-001–009 به وظایف تست و اجرا نگاشت شده‌اند.
-- هیچ تست یا کدی در مرحلهٔ تولید این سند اجرا/ساخته نشده و هیچ checkbox تکمیل نیست.
+- در مرحلهٔ تولید اولیه هیچ کدی ساخته نشده بود؛ وضعیت فعلی Phase 1 در checkboxها و quickstart ثبت می‌شود.
 - اصل V تست‌های backend و توافق Q4 تست کامپوننت را لازم می‌کنند؛ تست‌ها اختیاری نیستند.
-- همهٔ مسیرها هدف پیاده‌سازی آینده‌اند؛ این فرمان فقط همین tasks.md را ایجاد کرده است.
+- مسیرهای Phase 1 ایجاد شده‌اند؛ مسیرهای وظایف بعدی هنوز هدف پیاده‌سازی آینده‌اند.

@@ -1,7 +1,7 @@
 # Quickstart Validation Guide
 
-این راهنما برای پس از پیاده‌سازی است؛ مسیرهای اجرایی و فایل‌های قفل هنوز ایجاد نشده‌اند.
-فرمان‌ها در این مرحله اجرا نشده‌اند و موفقیت build/test ادعا نمی‌شود.
+این راهنما شامل آماده‌سازی Phase 1 و بررسی‌های پذیرش پس از پیاده‌سازی است.
+Phase 1 فقط زیرساخت پروژه‌ها را آماده می‌کند؛ endpointها و رفتار قابلیت هنوز اجرا نشده‌اند.
 
 ## پیش‌نیازها
 
@@ -26,8 +26,9 @@ npm --prefix frontend run test -- --run
 ```
 
 اسکریپت build فرانت‌اند باید `tsc -b && vite build` و test باید `vitest` باشد.
-در اولین setup آینده lockها با restore --use-lock-file و npm install ساخته و ثبت می‌شوند؛
-این مرحله آن فرمان‌ها را اجرا نمی‌کند. نبود lock را با حذف بررسی locked دور نزنید.
+برای اولین setup، lockها با `dotnet restore retail.sln --use-lock-file` و
+`npm --prefix frontend install` تولید می‌شوند؛ سپس فرمان‌های locked-mode و npm ci بالا
+برای بازیابی تکرارپذیر استفاده شوند. نبود lock را با حذف بررسی locked دور نزنید.
 
 انتظار: همهٔ تست‌های test-design.md موفق؛ هیچ قیمت کسری یا قسط صفر پذیرفته نشود؛
 هیچ مورد NEEDS CLARIFICATION باقی نماند. پروژه‌های Api و Api.Tests باید در retail.sln قرار گیرند.
@@ -95,3 +96,32 @@ curl -i -X POST http://localhost:5080/api/product/payment-plan/validity -H 'Cont
 تست‌های ساعت عقب/جلو و تأخیر با Date.now و performance.now جدا در Vitest اجرا شوند.
 پس از بازگشت از تب غیرفعال شبکه را در mock قطع کنید: برنامه باید پنهان بماند؛ تلاش مجدد
 بررسی فقط POST validity بزند. stopwatch و زمان دستگاه واقعی را تغییر ندهید.
+
+## آماده‌سازی Phase 1 — 2026-10-09
+
+محیط بررسی شد: SDK10.0.112، ASP.NET Core10.0.12، Node24.18.0 و npm11.16.0.
+`global.json` با rollForward=disable SDK را تثبیت می‌کند؛ `.nvmrc` نسخهٔ Node و
+packageManager در `frontend/package.json` نسخهٔ npm را ثبت می‌کنند.
+فرمان `dotnet --version` از ریشه باید10.0.112 باشد. آماده‌سازی شامل پروژه‌های API/تست،
+React/TS و وابستگی‌های تست است؛ پیکربندی jsdom/cleanup و harness متعلق به Phase 2 است.
+
+نتیجهٔ بررسی همین فاز:
+
+- `dotnet restore retail.sln --locked-mode` موفق؛ lock هر دو پروژه موجود است.
+- `dotnet build retail.sln --no-restore` موفق با صفر خطا و صفر هشدار.
+- `dotnet run --project tests/Retail.Api.Tests --no-build --no-restore -- -assemblyInfo`
+  xUnit4.0.1 روی .NET10.0.12 را تأیید کرد؛ `-list full` نیز موفق و بدون تست بود.
+- `npm --prefix frontend ci` و `npm --prefix frontend run build` موفق.
+- Vitest5.0.3 با `npm --prefix frontend run test -- --run --passWithNoTests` اجرا شد؛
+  صفر فایل تست وجود دارد. این گزینه فقط بررسی setup است و در script دائمی test ثبت نشده است.
+- بررسی موقت render/cleanup با React، Testing Library و jsdom موفق؛ تست موقت در مخزن
+  نگهداری نشد. harness، cleanup مشترک و vitest.config متعلق به T008 هستند.
+- `.gitignore` موجود bin/obj، node_modules، dist و tsbuildinfo را پوشش می‌دهد؛
+  تغییر لازم نبود و فایل نامناسب ثبت‌شده‌ای با قواعد فعلی یافت نشد.
+- منبع mirror-runflare در تنظیمات عمومی محیط باعث تأخیر restore شد؛ `NuGet.Config`
+  پروژه فقط منبع رسمی nuget.org را تعیین می‌کند و تنظیمات عمومی دستگاه را تغییر نمی‌دهد.
+- محدودیت sandbox برای شبکه و برخی فرمان‌های SDK با مجوز اجرای بیرون sandbox رفع شد.
+
+فقط T001–T005 کامل شدند. برنامهٔ بک‌اند هنوز هیچ endpoint قابلیت ندارد و فرانت‌اند
+فقط entry point خالی دارد؛ تست‌های مالی/تاریخ/API/UI هنوز نوشته نشده‌اند. بخش‌های بررسی
+قرارداد و کاربر در این راهنما متعلق به فازهای بعدند و در این مرحله اجرا نشده‌اند.

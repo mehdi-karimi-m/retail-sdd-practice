@@ -146,3 +146,17 @@ elapsed مناسب است ولی عبور زمان در تعلیق نباید ف
 
 **Source**: [W3C High Resolution Time](https://www.w3.org/TR/hr-time-3/) برای تفاوت ساعت
 یکنواخت و تقویمی. راهبرد RTT/بررسی اعتبار تصمیم طراحی این پروژه است، نه نقل الزام استاندارد.
+
+## تأیید بسته‌ها در Phase 1 — 2026-10-09
+
+نسخه‌های مستقیم مصوب React19.3.0، TypeScript6.0.2، Vite8.3.3، plugin-react6.1.2 و
+Vitest5.0.3 نصب شدند. نسخه‌های تکمیلی دقیق: React Testing Library16.3.3،
+@testing-library/dom10.4.2 و jsdom30.1.2؛ peerهای React18/19 و DOM10 پذیرفته می‌شوند.
+jsdom30.1.2 به Node ^22.22.2 یا ^24.15.0 یا >=26 نیاز دارد و Node24.18.0 محیط سازگار است.
+فرادادهٔ نسخه‌ها از رجیستری رسمی npm با npm view بررسی و در package-lock قفل شدند.
+ساخت TypeScript/Vite و بررسی موقت render/cleanup با React/Testing Library/jsdom موفق بود.
+پیکربندی test environment و cleanup مشترک هنوز متعلق به T008 است؛ در Phase 1 ایجاد نشد.
+
+منابع: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)،
+[jsdom](https://github.com/jsdom/jsdom)،
+[xUnit v3 و runner اجرایی](https://xunit.net/docs/getting-started/v3/getting-started).
